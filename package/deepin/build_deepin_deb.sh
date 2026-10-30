@@ -133,7 +133,9 @@ chmod 644 "$BUILD_DIR/usr/share/applications/qteasytier.desktop"
 chmod 644 "$BUILD_DIR/etc/systemd/system/qtet-daemon.service"
 
 echo "[INFO] 构建 Debian 包..."
-dpkg-deb --build "$BUILD_DIR" "$OUTPUT_DIR/$DEB_NAME"
+# --root-owner-group：非 root 用户打包时把包内文件的属主强制为 root:root，
+# 否则会沿用当前用户的 uid/gid，安装后 /opt/qteasytier 下的文件归属异常。
+dpkg-deb --root-owner-group --build "$BUILD_DIR" "$OUTPUT_DIR/$DEB_NAME"
 
 rm -rf "$BUILD_DIR"
 
