@@ -3,7 +3,7 @@
  * @brief 应用程序入口
  *
  * 按顺序完成初始化：
- * 1. 创建 QApplication，设置组织名和应用名
+ * 1. 创建 QApplication，设置组织名、应用名与桌面文件名
  * 2. 打开 SQLite 数据库并建表/迁移
  * 3. 创建 QQmlApplicationEngine
  * 4. 装配所有服务对象（AppServices）并以引擎为父级
@@ -12,6 +12,7 @@
  * 7. 进入事件循环
  */
 #include <QApplication>
+#include <QGuiApplication>
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QUrl>
@@ -32,6 +33,11 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setOrganizationName(QStringLiteral("qteasytier"));
     app.setApplicationName(QStringLiteral("QtEasyTier"));
+    // 声明本程序对应的桌面入口名（不含 .desktop 后缀，Qt 会拒绝带后缀的写法）。
+    // 打包脚本把桌面文件安装为 qteasytier.desktop，而可执行文件名为 appQtEasyTier；
+    // 若不显式设置，Qt 在 Wayland 下会以可执行文件名作为窗口 app_id（appQtEasyTier），
+    // GNOME/KDE 按 <app_id>.desktop 找不到匹配项，任务栏只能显示通用占位图标。
+    QGuiApplication::setDesktopFileName(QStringLiteral("qteasytier"));
     app.setWindowIcon(QIcon(":/icons/qtet.png"));
 
     AppLaunchManager launchManager;

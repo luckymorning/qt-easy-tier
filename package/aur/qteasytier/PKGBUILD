@@ -41,11 +41,11 @@ package() {
         "${pkgdir}/opt/qteasytier/qtet.png"
 
     # systemd 服务
-    install -Dm644 "assets/package/linux/qtet-daemon.service" \
+    install -Dm644 "package/linux/qtet-daemon.service" \
         "${pkgdir}/etc/systemd/system/qtet-daemon.service"
 
     # 桌面文件
-    install -Dm644 "assets/package/linux/qteasytier.desktop" \
+    install -Dm644 "package/linux/qteasytier.desktop" \
         "${pkgdir}/usr/share/applications/qteasytier.desktop"
 
     # 创建 /usr/bin 软链接
